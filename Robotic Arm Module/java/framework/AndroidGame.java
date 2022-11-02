@@ -251,6 +251,7 @@ public abstract class AndroidGame extends Activity implements Game {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             String info = ((TextView) view).getText().toString();
             String address = info.substring(info.length() - 17);
+            final String name = info.substring(0,info.length() - 17);
             new Thread() {
                 @Override
                 public void run() {
@@ -273,6 +274,8 @@ public abstract class AndroidGame extends Activity implements Game {
                         Log.v(TAG, "Connection exception!");
                         try {
                             mmSocket.close();
+                            mHandler.obtainMessage(CONNECTING_STATUS, -1, -1)
+                                    .sendToTarget();
                             /*mmSocket = (BluetoothSocket) mmDevice.getClass().getMethod("createRfcommSocket", new Class[]{int.class}).invoke(mmDevice, 1);
                             mmSocket.connect();
                         } catch (NoSuchMethodException e) {
@@ -286,6 +289,8 @@ public abstract class AndroidGame extends Activity implements Game {
 
                         }
                     }
+                    mHandler.obtainMessage(CONNECTING_STATUS, 1, -1, name)
+                            .sendToTarget();
                     mConnectedThread = new ConnectedThread(mmSocket, mHandler);
                     mConnectedThread.start();
                     /*
