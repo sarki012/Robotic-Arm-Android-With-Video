@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Status:"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/bluetooth_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.9"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="&lt;Bluetooth Status>"
+            android:layout_margin="2dp"/>
+    </LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_enablebt"
+        android:onClick="on"
+        android:text="Enable BT" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_disablebt"
+        android:onClick="off"
+        android:text="Disable BT"
+        android:layout_alignParentRight="true" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_scanbt"
+        android:onClick="deviceList"
+        android:text="Scan BT"
+        android:layout_centerHorizontal="true" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/listView"
+        android:layout_below="@id/button_scanbt"/>
+
+    <Button
+        android:id="@+id/display_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Display Controller"
+        android:layout_margin="2dp"/>
+
+</LinearLayout>
