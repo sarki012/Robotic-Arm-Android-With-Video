@@ -34,7 +34,7 @@ public class FloatingWindow extends Service {
     private int LAYOUT_TYPE;
     private WindowManager.LayoutParams floatWindowLayoutParam;
     private WindowManager windowManager;
-    private Button maximizeBtn;
+    private Button closeBtn;
     private WebView mWebView;
     // As FloatingWindowGFG inherits Service class,
     // it actually overrides the onBind method
@@ -69,7 +69,7 @@ public class FloatingWindow extends Service {
         mWebView.loadUrl(vidAddress);
         // The Buttons and the EditText are connected with
         // the corresponding component id used in floating_layout xml file
-        maximizeBtn = floatView.findViewById(R.id.buttonMaximize);
+        closeBtn = floatView.findViewById(R.id.buttonClose);
 
         // WindowManager.LayoutParams takes a lot of parameters to set the
         // the parameters of the layout. One of them is Layout_type.
@@ -116,7 +116,7 @@ public class FloatingWindow extends Service {
         windowManager.addView(floatView, floatWindowLayoutParam);
 
         // The button that helps to maximize the app
-        maximizeBtn.setOnClickListener(new View.OnClickListener() {
+        closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // stopSelf() method is used to stop the service if
@@ -126,9 +126,10 @@ public class FloatingWindow extends Service {
                 // The window is removed from the screen
                 windowManager.removeView(floatView);
 
+                /*
                 // The app will maximize again. So the MainActivity
                 // class will be called again.
-                Intent backToHome = new Intent(FloatingWindow.this, VideoActivity.class);
+                Intent backToHome = new Intent(FloatingWindow.this, RoboticArm.class);
 
                 // 1) FLAG_ACTIVITY_NEW_TASK flag helps activity to start a new task on the history stack.
                 // If a task is already running like the floating window service, a new activity will not be started.
@@ -137,6 +138,8 @@ public class FloatingWindow extends Service {
                 // kill the existing task first and then new activity is started.
                 backToHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(backToHome);
+
+                 */
             }
         });
 
