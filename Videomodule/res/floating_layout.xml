@@ -14,12 +14,12 @@
         android:transitionGroup="true"
         android:orientation="vertical">
         <Button
-            android:id="@+id/buttonMaximize"
+            android:id="@+id/buttonClose"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="0dp"
             android:background="@android:color/white"
-            android:text="MAXIMIZE"
+            android:text="Close Video Stream"
             android:textColor="@android:color/black"
             android:textSize="15sp" />
         <WebView
