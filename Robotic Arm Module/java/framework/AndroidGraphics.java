@@ -14,9 +14,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
 
-import static com.esark.roboticarm.GameScreen.backgroundCount;
-import static com.esark.roboticarm.GameScreen.blueJoystickCount;
-import static com.esark.roboticarm.GameScreen.joystickCount;
 
 import com.esark.roboticarm.GetLruCache;
 
@@ -115,6 +112,12 @@ public class AndroidGraphics extends AndroidGame implements Graphics {
         canvas.drawRect(x, y, x + width - 1, y + height - 1, paint);
         return;
     }
+    public void drawTestRect(int x, int y) {
+        paint.setColor(Color.WHITE);
+        paint.setStyle(Style.FILL);
+        canvas.drawRect(x, y, x + 500, y + 500, paint);
+        return;
+    }
 /*
     public void drawPixmap(Pixmap pixmap, int x, int y, int srcX, int srcY, int srcWidth, int srcHeight) {
         srcRect.left = srcX;
@@ -131,34 +134,14 @@ public class AndroidGraphics extends AndroidGame implements Graphics {
         return;
     }
 */
-    public void drawBlueJoystick(Pixmap pixmap, int x, int y) {     //Draws a blue sphere bitmap
-        mMemoryCache = GetLruCache.get();       //Retrieve the cache. GetLruCache is a singleton so there is only one cache
-        if (blueJoystickCount == 0) {       //First time. Load the cache
-            blueJoystickBitmap = Bitmap.createScaledBitmap(((AndroidPixmap) pixmap).bitmap, 500, 500, false);   //Create a scaled blue joystick bitmap
-            canvas.drawBitmap(blueJoystickBitmap, x, y, null);      //Draw the blue joystick on the canvas
-            addBitmapToMemoryCache("blueJoystickKey", blueJoystickBitmap);      //Add the bitmap to the cache
-            blueJoystickCount = 1;      //Set the flag. We only load the cache once
-        }
-        canvas.drawBitmap(getBitmapFromMemCache("blueJoystickKey"), x, y, null);        //Draw a blue joystick on the canvas
-        return;
-    }
-    public void drawJoystick(Pixmap pixmap, int x, int y) {     //Draws a red sphere bitmap
-        mMemoryCache = GetLruCache.get();       //Retrieve the cache. GetLruCache is a singleton so there is only one cache
-        if (joystickCount == 0) {       //First time. Load the cache
-            joystickBitmap = Bitmap.createScaledBitmap(((AndroidPixmap) pixmap).bitmap, 750, 750, false);   //Create a scaled red joystick bitmap
-            canvas.drawBitmap(joystickBitmap, x, y, null);      //Draw the red joystick on the canvas
-            addBitmapToMemoryCache("joystickKey", joystickBitmap);      //Add the bitmap to the cache
-            joystickCount = 1;      //Set the flag. We only load the cache once
-        }
-        canvas.drawBitmap(getBitmapFromMemCache("joystickKey"), x, y, null);        //Draw a red joystick on the canvas
-        return;
-    }
+
+
     public void drawPortraitPixmap(Pixmap pixmap, int x, int y) {
-        Bitmap resizedBitmap = Bitmap.createScaledBitmap(((AndroidPixmap) pixmap).bitmap, 420, 700, false);
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(((AndroidPixmap) pixmap).bitmap, 3500, 5000, false);
         canvas.drawBitmap(resizedBitmap, x, y, null);
         return;
     }
-
+/*
     public void drawLandscapePixmap(Pixmap pixmap, int x, int y) {     //Draws the background bitmap
         mMemoryCache = GetLruCache.get();       //Retrieve the cache. GetLruCache is a singleton so there is only one cache
         if (backgroundCount == 0) {       //First time. Load the cache
@@ -170,6 +153,8 @@ public class AndroidGraphics extends AndroidGame implements Graphics {
         canvas.drawBitmap(getBitmapFromMemCache("Key"), x, y, null);        //Draw the background
         return;
     }
+
+ */
     public void addBitmapToMemoryCache(String key, Bitmap bitmap) {     //Add a bitmap to the cache
         if (getBitmapFromMemCache(key) == null) {
             mMemoryCache.put(key, bitmap);

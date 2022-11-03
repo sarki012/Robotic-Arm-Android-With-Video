@@ -18,15 +18,17 @@ public interface Graphics {
 
     public void drawRect(int x, int y, int width, int height, int color);
 
-  //  public void drawPixmap(Pixmap pixmap, int x, int y);
+    public void drawTestRect(int x, int y);
 
-    public void drawBlueJoystick(Pixmap pixmap, int x, int y);
+    //  public void drawPixmap(Pixmap pixmap, int x, int y);
 
-    public void drawJoystick(Pixmap pixmap, int x, int y);
+    //public void drawBlueJoystick(Pixmap pixmap, int x, int y);
+
+    //public void drawJoystick(Pixmap pixmap, int x, int y);
 
     public void drawPortraitPixmap(Pixmap pixmap, int x, int y);
 
-    public void drawLandscapePixmap(Pixmap pixmap, int x, int y);
+ //   public void drawLandscapePixmap(Pixmap pixmap, int x, int y);
 
     public void drawText(String percent, int x, int y);
 
