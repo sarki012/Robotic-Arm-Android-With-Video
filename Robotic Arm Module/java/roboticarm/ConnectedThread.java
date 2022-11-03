@@ -2,6 +2,17 @@ package com.esark.roboticarm;
 
 
 
+import static com.esark.roboticarm.GameScreen.clawClosed;
+import static com.esark.roboticarm.GameScreen.clawOpen;
+import static com.esark.roboticarm.GameScreen.down;
+import static com.esark.roboticarm.GameScreen.in;
+import static com.esark.roboticarm.GameScreen.left;
+import static com.esark.roboticarm.GameScreen.out;
+import static com.esark.roboticarm.GameScreen.record;
+import static com.esark.roboticarm.GameScreen.repeat;
+import static com.esark.roboticarm.GameScreen.right;
+import static com.esark.roboticarm.GameScreen.up;
+
 import android.bluetooth.BluetoothSocket;
 import android.os.Handler;
 
@@ -61,8 +72,47 @@ public class ConnectedThread extends Thread {
                 break;
             }
 
-            write("Esark is a Mad Scientist");
-            SystemClock.sleep(1000);
+            if(clawOpen == 1){
+                write("co");
+                SystemClock.sleep(500);
+            }
+            if(clawClosed == 1){
+                write("cc");
+                SystemClock.sleep(500);
+            }
+            if(up == 1){
+                write("u");
+                SystemClock.sleep(500);
+            }
+            if(down == 1){
+                write("d");
+                SystemClock.sleep(500);
+            }
+            if(left == 1){
+                write("l");
+                SystemClock.sleep(500);
+            }
+            if(right == 1){
+                write("r");
+                SystemClock.sleep(500);
+            }
+            if(out == 1){
+                write("o");
+                SystemClock.sleep(500);
+            }
+            if(in == 1){
+                write("i");
+                SystemClock.sleep(500);
+            }
+            if(record == 1){
+                write("rec");
+                SystemClock.sleep(500);
+            }
+            if(repeat == 1){
+                write("rep");
+                SystemClock.sleep(500);
+            }
+
         }
     }
 
