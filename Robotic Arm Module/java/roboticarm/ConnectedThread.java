@@ -74,43 +74,59 @@ public class ConnectedThread extends Thread {
 
             if(clawOpen == 1){
                 write("co");
-                SystemClock.sleep(500);
+             //   SystemClock.sleep(100);
             }
             if(clawClosed == 1){
                 write("cc");
-                SystemClock.sleep(500);
+             //   SystemClock.sleep(100);
             }
             if(up == 1){
                 write("u");
-                SystemClock.sleep(500);
+                SystemClock.sleep(10);
+            }
+            else if(up == 0){
+                write("!");
+                SystemClock.sleep(10);
             }
             if(down == 1){
                 write("d");
-                SystemClock.sleep(500);
+                SystemClock.sleep(10);
+            }
+            else if(down == 0){
+                write("@");
+                SystemClock.sleep(10);
             }
             if(left == 1){
                 write("l");
-                SystemClock.sleep(500);
+                SystemClock.sleep(10);
+            }
+            else if(left == 0){
+                write("#");
+                SystemClock.sleep(10);
             }
             if(right == 1){
                 write("r");
-                SystemClock.sleep(500);
+                SystemClock.sleep(10);
+            }
+            else if(right == 0){
+                write("$");
+                SystemClock.sleep(10);
             }
             if(out == 1){
                 write("o");
-                SystemClock.sleep(500);
+            //    SystemClock.sleep(100);
             }
             if(in == 1){
                 write("i");
-                SystemClock.sleep(500);
+             //   SystemClock.sleep(100);
             }
             if(record == 1){
                 write("rec");
-                SystemClock.sleep(500);
+             //  SystemClock.sleep(100);
             }
             if(repeat == 1){
                 write("rep");
-                SystemClock.sleep(500);
+                //SystemClock.sleep(100);
             }
 
         }

@@ -26,8 +26,8 @@ public class GameScreen extends Screen implements Input {
     public static int clawClosed = 0;
     public static int left = 0;
     public static int right = 0;
-    public static int up = 0;
-    public static int down = 0;
+    public static int up = -1;
+    public static int down = -1;
     public static int out = 0;
     public static int in = 0;
     public static int record = 0;
