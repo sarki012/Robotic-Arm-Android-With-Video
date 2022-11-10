@@ -75,6 +75,9 @@ public class GameScreen extends Screen implements Input {
                 else if(x > 600 && x < 1100 && y > 3550 && y < 4050){
                     left = 0;
                 }
+                else if(x > 2300 && x < 2800 && y > 3550 && y < 4050){
+                    right = 0;
+                }
                 else if(x > 1120 && x < 1620 && y > 3075 && y < 3575){
                     up = 0;
                 }
@@ -86,9 +89,6 @@ public class GameScreen extends Screen implements Input {
                 }
                 else if(x > 1825 && x < 2325 && y > 3075 && y < 3575){
                     out = 0;
-                }
-                else if(x > 2300 && x < 2800 && y > 3550 && y < 4050){
-                    right = 0;
                 }
                 else if(x > 2800 && x < 3300 && y > 2600 && y < 3100){
                     clawClosed = 0;
@@ -116,6 +116,9 @@ public class GameScreen extends Screen implements Input {
                 else if(x > 600 && x < 1100 && y > 3550 && y < 4050){
                     left = 1;
                 }
+                else if(x > 2300 && x < 2800 && y > 3550 && y < 4050){
+                    right = 1;
+                }
                 else if(x > 1120 && x < 1620 && y > 3075 && y < 3575){
                     up = 1;
                 }
@@ -127,9 +130,6 @@ public class GameScreen extends Screen implements Input {
                 }
                 else if(x > 1825 && x < 2325 && y > 3075 && y < 3575){
                     out = 1;
-                }
-                else if(x > 2300 && x < 2800 && y > 3550 && y < 4050){
-                    right = 1;
                 }
                 else if(x > 2800 && x < 3300 && y > 2600 && y < 3100){
                     clawClosed = 1;
