@@ -55,6 +55,7 @@ public class ConnectedThread extends Thread {
         int bytes; // bytes returned from read()
         // Keep listening to the InputStream until an exception occurs
         while (true) {
+        /*
             try {
                 // Read from the InputStream
                 bytes = mmInStream.available();
@@ -71,6 +72,7 @@ public class ConnectedThread extends Thread {
 
                 break;
             }
+*/
 
             if(clawOpen == 1){
                 write("co");
@@ -80,6 +82,7 @@ public class ConnectedThread extends Thread {
                 write("cc");
              //   SystemClock.sleep(100);
             }
+
             if(up == 1){
                 write("u");
                 SystemClock.sleep(10);
@@ -92,7 +95,7 @@ public class ConnectedThread extends Thread {
                 write("d");
                 SystemClock.sleep(10);
             }
-            else if(down == 0){
+            else if(down == 0) {
                 write("@");
                 SystemClock.sleep(10);
             }
@@ -112,6 +115,8 @@ public class ConnectedThread extends Thread {
                 write("$");
                 SystemClock.sleep(10);
             }
+           // SystemClock.sleep(100);
+            /*
             if(out == 1){
                 write("o");
             //    SystemClock.sleep(100);
@@ -128,6 +133,8 @@ public class ConnectedThread extends Thread {
                 write("rep");
                 //SystemClock.sleep(100);
             }
+
+             */
 
         }
     }
