@@ -87,15 +87,11 @@ public class ConnectedThread extends Thread {
                 write("u");
                 SystemClock.sleep(10);
             }
-            else if(up == 0){
-                write("!");
-                SystemClock.sleep(10);
-            }
             if(down == 1){
                 write("d");
                 SystemClock.sleep(10);
             }
-            else if(down == 0) {
+            else if(down == 0 && up == 0) {
                 write("@");
                 SystemClock.sleep(10);
             }
@@ -103,28 +99,27 @@ public class ConnectedThread extends Thread {
                 write("l");
                 SystemClock.sleep(10);
             }
-            else if(left == 0){
-                write("#");
-                SystemClock.sleep(10);
-            }
             if(right == 1){
                 write("r");
                 SystemClock.sleep(10);
             }
-            else if(right == 0){
+            else if(right == 0 && left == 0){
                 write("$");
                 SystemClock.sleep(10);
             }
-           // SystemClock.sleep(100);
-            /*
             if(out == 1){
                 write("o");
-            //    SystemClock.sleep(100);
+                SystemClock.sleep(10);
             }
             if(in == 1){
                 write("i");
-             //   SystemClock.sleep(100);
+                SystemClock.sleep(10);
             }
+            else if(in == 0 && out == 0){
+                write("*");
+                SystemClock.sleep(10);
+            }
+            /*
             if(record == 1){
                 write("rec");
              //  SystemClock.sleep(100);
@@ -135,7 +130,6 @@ public class ConnectedThread extends Thread {
             }
 
              */
-
         }
     }
 

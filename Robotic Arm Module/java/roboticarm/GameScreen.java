@@ -26,8 +26,8 @@ public class GameScreen extends Screen implements Input {
     public static int clawClosed = 0;
     public static int left = 0;
     public static int right = 0;
-    public static int up = -1;
-    public static int down = -1;
+    public static int up = 0;
+    public static int down = 0;
     public static int out = 0;
     public static int in = 0;
     public static int record = 0;
@@ -58,6 +58,8 @@ public class GameScreen extends Screen implements Input {
         backgroundPixmap = Assets.robotPortraitBackground;
         g.drawPortraitPixmap(backgroundPixmap, 0, 0);
         g.drawTestRect(2250, 400);
+        g.drawTestRect(1825, 4100);
+        g.drawTestRect(1825, 3075);
         int len = touchEvents.size();
         for (int i = 0; i < len; i++) {
             TouchEvent event = touchEvents.get(i);
