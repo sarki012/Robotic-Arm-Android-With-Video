@@ -118,6 +118,12 @@ public class AndroidGraphics extends AndroidGame implements Graphics {
         canvas.drawRect(x, y, x + 500, y + 500, paint);
         return;
     }
+    public void drawFBRect(int x, int y) {
+            paint.setColor(Color.WHITE);
+        paint.setStyle(Style.FILL);
+        canvas.drawRect(x, y, x + 500, y + 250, paint);
+        return;
+    }
 /*
     public void drawPixmap(Pixmap pixmap, int x, int y, int srcX, int srcY, int srcWidth, int srcHeight) {
         srcRect.left = srcX;
