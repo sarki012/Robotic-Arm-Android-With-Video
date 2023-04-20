@@ -37,6 +37,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 
+import com.esark.roboticarm.GameScreen;
 import com.esark.roboticarm.R;
 import com.esark.roboticarm.RoboticArm;
 import com.esark.roboticarm.ConnectedThread;
@@ -156,10 +157,54 @@ public abstract class AndroidGame extends Activity implements Game {
                         System.out.println(readMessage);
 
                         for(int t = 0; t < 50; t++) {
-                            if(readMessage.charAt(t) == 'T'){
-                                    startChar = 1;
+                            if (readMessage.charAt(t) == '-') {
+                                t++;
+                            }
+                            if (readMessage.charAt(t) == 's') {         //Next char is a number
+                                t++;
+                                number1000 = (Character.getNumericValue(readMessage.charAt((t)))) * 1000;
+                                t++;
+                                number100 = (Character.getNumericValue(readMessage.charAt((t)))) * 100;
+                                t++;
+                                number10 = (Character.getNumericValue(readMessage.charAt((t)))) * 10;
+                                t++;
+                                number1 = Character.getNumericValue(readMessage.charAt((t)));
+                                if ((number1000 + number100 + number10 + number1) >= 0) {
+                                    //stickBuffer += (number1000 + number100 + number10 + number1);
+                                    GameScreen.stickADC[j] = (number1000 + number100 + number10 + number1);
                                 }
-
+                            }
+                            t++;
+                            if (readMessage.charAt(t) == 't') {         //Next char is a number
+                                t++;
+                                number1000 = (Character.getNumericValue(readMessage.charAt((t)))) * 1000;
+                                t++;
+                                number100 = (Character.getNumericValue(readMessage.charAt((t)))) * 100;
+                                t++;
+                                number10 = (Character.getNumericValue(readMessage.charAt((t)))) * 10;
+                                t++;
+                                number1 = Character.getNumericValue(readMessage.charAt((t)));
+                                if ((number1000 + number100 + number10 + number1) >= 0) {
+                                    GameScreen.tipADC[j] = (number1000 + number100 + number10 + number1);
+                                }
+                            }
+                            t++;
+                                if (readMessage.charAt(t) == 'c') {         //Next char is a number
+                                    t++;
+                                    number1000 = (Character.getNumericValue(readMessage.charAt((t)))) * 1000;
+                                    t++;
+                                    number100 = (Character.getNumericValue(readMessage.charAt((t)))) * 100;
+                                    t++;
+                                    number10 = (Character.getNumericValue(readMessage.charAt((t)))) * 10;
+                                    t++;
+                                    number1 = Character.getNumericValue(readMessage.charAt((t)));
+                                    if ((number1000 + number100 + number10 + number1) >= 0) {
+                                        GameScreen.clawADC[j] = (number1000 + number100 + number10 + number1);
+                                    }
+                                    j++;
+                                    if (j >= 10)
+                                        j = 0;
+                                }
                             }
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();

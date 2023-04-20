@@ -20,6 +20,8 @@ public interface Graphics {
 
     public void drawTestRect(int x, int y);
 
+    public void drawFBRect(int x, int y);
+
     //  public void drawPixmap(Pixmap pixmap, int x, int y);
 
     //public void drawBlueJoystick(Pixmap pixmap, int x, int y);
