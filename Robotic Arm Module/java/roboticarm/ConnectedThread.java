@@ -11,6 +11,8 @@ import static com.esark.roboticarm.GameScreen.out;
 import static com.esark.roboticarm.GameScreen.record;
 import static com.esark.roboticarm.GameScreen.repeat;
 import static com.esark.roboticarm.GameScreen.right;
+import static com.esark.roboticarm.GameScreen.tipDown;
+import static com.esark.roboticarm.GameScreen.tipUp;
 import static com.esark.roboticarm.GameScreen.up;
 
 import android.bluetooth.BluetoothSocket;
@@ -55,7 +57,6 @@ public class ConnectedThread extends Thread {
         int bytes; // bytes returned from read()
         // Keep listening to the InputStream until an exception occurs
         while (true) {
-        /*
             try {
                 // Read from the InputStream
                 bytes = mmInStream.available();
@@ -72,22 +73,26 @@ public class ConnectedThread extends Thread {
 
                 break;
             }
-*/
+
 
             if(clawOpen == 1){
-                write("co");
-             //   SystemClock.sleep(100);
+                write("n");
+                SystemClock.sleep(10);
             }
-            if(clawClosed == 1){
-                write("cc");
-             //   SystemClock.sleep(100);
+            else if(clawClosed == 1){
+                write("c");
+                SystemClock.sleep(10);
+            }
+            else if(clawOpen == 0 && clawClosed == 0){
+                write("%");
+                SystemClock.sleep(10);
             }
 
             if(up == 1){
                 write("u");
                 SystemClock.sleep(10);
             }
-            if(down == 1){
+            else if(down == 1){
                 write("d");
                 SystemClock.sleep(10);
             }
@@ -99,7 +104,7 @@ public class ConnectedThread extends Thread {
                 write("l");
                 SystemClock.sleep(10);
             }
-            if(right == 1){
+            else if(right == 1){
                 write("r");
                 SystemClock.sleep(10);
             }
@@ -107,16 +112,28 @@ public class ConnectedThread extends Thread {
                 write("$");
                 SystemClock.sleep(10);
             }
-            if(out == 1){
-                write("o");
+            if(out == 1 && in == 0){
+                write("O");
                 SystemClock.sleep(10);
             }
-            if(in == 1){
-                write("i");
+            else if(in == 1 && out == 0){
+                write("I");
                 SystemClock.sleep(10);
             }
             else if(in == 0 && out == 0){
-                write("*");
+                write("&");
+                SystemClock.sleep(10);
+            }
+            if(tipDown == 1){
+                write("t");             //Tip Down
+                SystemClock.sleep(10);
+            }
+            else if(tipUp == 1){
+                write("p");             //Tip Up
+                SystemClock.sleep(10);
+            }
+            else if(tipDown == 0 && tipUp == 0){
+                write("^");             //Stop tip motor
                 SystemClock.sleep(10);
             }
             /*

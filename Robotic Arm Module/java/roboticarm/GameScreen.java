@@ -30,8 +30,23 @@ public class GameScreen extends Screen implements Input {
     public static int down = 0;
     public static int out = 0;
     public static int in = 0;
+    public static int tipDown = 0;
+    public static int tipUp = 0;
     public static int record = 0;
     public static int repeat = 0;
+
+    public int i = 1;
+
+    public static int[] boomADC = new int[10];
+    public static int[] stickADC = new int[10];
+    public static int[] tipADC = new int[10];
+    public static int[] clawADC = new int[10];
+
+    public int stickBuffer = 0;
+    public int stickCount = 0;
+    public int stickADCPrev = 0;
+    public int start = 0;
+    public int k = 0;
 
     public Pixmap backgroundPixmap = null;
     private static final int INVALID_POINTER_ID = -1;
@@ -57,9 +72,79 @@ public class GameScreen extends Screen implements Input {
         Graphics g = game.getGraphics();
         backgroundPixmap = Assets.robotPortraitBackground;
         g.drawPortraitPixmap(backgroundPixmap, 0, 0);
+
+        for(k = 1; k < 10; k++) {
+            if (Math.abs((stickADC[k] - stickADC[k - 1])) < 50) {
+                stickBuffer += stickADC[k];
+                stickCount++;
+            }
+        }
+        if(stickCount != 0) {
+            stickBuffer = stickBuffer / stickCount;
+        }
+        if(stickBuffer != 0) {
+            g.drawFBRect(830, 580);
+            g.drawText(String.valueOf(stickBuffer), 830, 780);
+        }
+        stickBuffer = 0;
+        stickCount = 0;
+
+     //   g.drawFBRect(830, 200);
+       // g.drawText(String.valueOf(boomADC[i]), 830, 400);
+        /*
+        if(start == 0){
+            stickADCPrev = stickADC[0];
+            start = 1;
+        }
+        if(Math.abs(stickADCPrev - stickADC[0]) < 10){
+            stickADCPrev = stickADC[0];
+            g.drawFBRect(830, 580);
+            g.drawText(String.valueOf(stickADC[0]), 830, 780);
+        }
+        else{
+            g.drawFBRect(830, 580);
+            g.drawText(String.valueOf(stickADCPrev), 830, 780);
+        }
+        if(Math.abs(tipADC[i - 1] - tipADC[i]) < 5){
+            g.drawFBRect(830, 960);
+            g.drawText(String.valueOf(tipADC[i]), 830, 1160);
+        }
+        else{
+            g.drawFBRect(830, 960);
+            g.drawText(String.valueOf(tipADC[i - 1]), 830, 1160);
+        }
+        if(Math.abs(clawADC[i - 1] - clawADC[i]) < 5) {
+            g.drawFBRect(830, 1340);
+            g.drawText(String.valueOf(clawADC[i]), 830, 1540);
+        }
+        else{
+            g.drawFBRect(830, 1340);
+            g.drawText(String.valueOf(clawADC[i - 1]), 830, 1540);
+        }*/
+        i++;
+        if(i >= 50){
+            i = 1;
+        }
+    //    g.drawTestRect(1100, 1850);
+        /*
         g.drawTestRect(2250, 400);
-        g.drawTestRect(1825, 4100);
-        g.drawTestRect(1825, 3075);
+        //.drawTestRect(1825, 4100);
+        //g.drawTestRect(1825, 3075);
+        g.drawTestRect(200, 4100);
+        g.drawTestRect(2850, 4100);
+        g.drawTestRect(600, 3450);
+        g.drawTestRect(2325, 3450);
+        g.drawTestRect(1120, 3000);
+        g.drawTestRect(1120, 3950);
+        g.drawTestRect(1800, 3950);
+        g.drawTestRect(1800, 3000);
+        g.drawTestRect(2850, 4100);
+        g.drawTestRect(175, 2550);  //Claw open
+        g.drawTestRect(2800, 2550); //Claw closed
+
+
+         */
+
         int len = touchEvents.size();
         for (int i = 0; i < len; i++) {
             TouchEvent event = touchEvents.get(i);
@@ -71,28 +156,34 @@ public class GameScreen extends Screen implements Input {
             x = event.x;          //Get the x and y coordinates of the first touch
             y = event.y;
             if (event.type == TouchEvent.TOUCH_UP) {    //A thumb is lifted. The following code figures out in which region of the screen the thumb was lifted
-                if(x > 175 && x < 675 && y > 2600 && y < 3100){
-                    clawOpen = 0;
-                }
-                else if(x > 600 && x < 1100 && y > 3550 && y < 4050){
+                if(x > 600 && x < 1100 && y > 3450 && y < 3950){
                     left = 0;
                 }
-                else if(x > 2300 && x < 2800 && y > 3550 && y < 4050){
+                else if(x > 2325 && x < 2825 && y > 3450 && y < 3950){
                     right = 0;
                 }
-                else if(x > 1120 && x < 1620 && y > 3075 && y < 3575){
+                else if(x > 1120 && x < 1620 && y > 3000 && y < 3500){
                     up = 0;
                 }
-                else if(x > 1120 && x < 1620 && y > 4100 && y < 4600){
+                else if(x > 1120 && x < 1620 && y > 3950 && y < 4450){
                     down = 0;
                 }
-                else if(x > 1825 && x < 2325 && y > 4100 && y < 4600){
+                else if(x > 1800 && x < 2300 && y > 3950 && y < 4450){
                     in = 0;
                 }
-                else if(x > 1825 && x < 2325 && y > 3075 && y < 3575){
+                else if(x > 1800 && x < 2300 && y > 3000 && y < 3500){
                     out = 0;
                 }
-                else if(x > 2800 && x < 3300 && y > 2600 && y < 3100){
+                else if(x > 200 && x < 700 && y > 4100 && y < 4600){
+                    tipDown = 0;
+                }
+                else if(x > 2850 && x < 3350 && y > 4100 && y < 4600){
+                    tipUp = 0;
+                }
+                else if(x > 175 && x < 675 && y > 2550 && y < 3050){
+                    clawOpen = 0;
+                }
+                else if(x > 2800 && x < 3300 && y > 2550 && y < 3050){
                     clawClosed = 0;
                 }
                 else if(x > 950 && x < 1450 && y > 2100 && y < 2600){
@@ -105,35 +196,43 @@ public class GameScreen extends Screen implements Input {
             }
             if (event.type == TouchEvent.TOUCH_DRAGGED || event.type == TouchEvent.TOUCH_DOWN) {    //A thumb is pressed or dragging the screen
                 //The following code determines which region of the screen the thumb was pressed
-                if (x > 350 && x < 850 && y > 150 && y < 650) {       //Back button
+                if (x > 1100 && x < 1160 && y > 1850 && y < 2350) {       //Back button
                     //Back Button Code Here
                      backgroundPixmap.dispose();
                     Intent intent2 = new Intent(context.getApplicationContext(), RoboticArm.class);
                     context.startActivity(intent2);
                     return;
                 }
-                else if(x > 175 && x < 675 && y > 2600 && y < 3100){
-                    clawOpen = 1;
-                }
-                else if(x > 600 && x < 1100 && y > 3550 && y < 4050){
+                else if(x > 600 && x < 1100 && y > 3450 && y < 3950){
                     left = 1;
                 }
-                else if(x > 2300 && x < 2800 && y > 3550 && y < 4050){
+                else if(x > 2325 && x < 2825 && y > 3450 && y < 3950){
                     right = 1;
                 }
-                else if(x > 1120 && x < 1620 && y > 3075 && y < 3575){
+                else if(x > 1120 && x < 1620 && y > 3000 && y < 3500){
                     up = 1;
                 }
-                else if(x > 1120 && x < 1620 && y > 4100 && y < 4600){
+                else if(x > 1120 && x < 1620 && y > 3950 && y < 4450){
                     down = 1;
                 }
-                else if(x > 1825 && x < 2325 && y > 4100 && y < 4600){
+                else if(x > 1800 && x < 2300 && y > 3950 && y < 4450){
                     in = 1;
+                    out = 0;
                 }
-                else if(x > 1825 && x < 2325 && y > 3075 && y < 3575){
+                else if(x > 1800 && x < 2300 && y > 3000 && y < 3500){
                     out = 1;
+                    in = 0;
                 }
-                else if(x > 2800 && x < 3300 && y > 2600 && y < 3100){
+                else if(x > 200 && x < 700 && y > 4100 && y < 4600){
+                    tipDown = 1;
+                }
+                else if(x > 2850 && x < 3350 && y > 4100 && y < 4600){
+                    tipUp = 1;
+                }
+                else if(x > 175 && x < 675 && y > 2550 && y < 3050){
+                    clawOpen = 1;
+                }
+                else if(x > 2800 && x < 3300 && y > 2550 && y < 3050){
                     clawClosed = 1;
                 }
                 else if(x > 950 && x < 1450 && y > 2100 && y < 2600){
