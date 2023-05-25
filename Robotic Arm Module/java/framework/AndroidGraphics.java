@@ -174,6 +174,7 @@ public class AndroidGraphics extends AndroidGame implements Graphics {
     public void drawText(String percent, int x, int y) {
         paint.setColor(Color.BLACK);
         paint.setTextSize(250);
+        paint.setTextAlign(Paint.Align.RIGHT);
         canvas.drawText(percent, x, y, paint);
         return;
     }

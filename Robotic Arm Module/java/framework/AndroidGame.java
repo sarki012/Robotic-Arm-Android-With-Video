@@ -100,12 +100,33 @@ public abstract class AndroidGame extends Activity implements Game {
     private char bluetoothVal1 = 0;
     private char bluetoothVal0 = 0;
     private int j = 0;
-    int n = 0;
+    private int k = 0;
+    private int m = 0;
+    private int n = 0;
+    private int q = 0;
+    private int p = 0;
+    private int count = 0;
+    public static final int bufferSize = 10;
+    private int tLast = 0;
+    public int breakFlag = 0;
+    private final int loopCount = 30;
     int t = 0;
     public static int landscape = 0;
     public static char startChar = 0;
     public static int width = 0;
     public static int height = 0;
+
+    public static int[] boomADC = new int[10];
+    public static int[] stickADC = new int[10];
+    public static int[] tipADC = new int[10];
+    public static int[] clawADC = new int[10];
+
+    public static int[] alpha = new int[10];
+    public static int[] alphaFB = new int[10];
+    public static int[] beta = new int[10];
+    public static int[] betaFB = new int[10];
+ //   public static int[] xDistance = new int[10];
+    public static int xDistance = 0;
 
    // private LruCache<String, Bitmap> mMemoryCache;
     //public int count = 0;
@@ -155,41 +176,225 @@ public abstract class AndroidGame extends Activity implements Game {
                     try {
                         readMessage = new String((byte[]) msg.obj, "UTF-8");
                         System.out.println(readMessage);
+                        breakFlag = 0;
+/*
+                        for(int t = 0; t < loopCount; t++) {
+                            breakFlag = 0;
+                            if (readMessage.charAt(t) == 'a') {         //Next char is a number
+                                for (n = 1; n < 5; n++) {
+                                    //Log.d("ADebugTag", "readMessage: " + (int)(readMessage.charAt(t + n)));
+                                    if ((int) (readMessage.charAt(t + n)) < 48 || (int) (readMessage.charAt(t + n)) > 57) {
+                                        breakFlag = 1;
+                                    }
+                                }
+                                if (breakFlag != 1) {
+                                    t++;
+                                    number1000 = (Character.getNumericValue(readMessage.charAt((t)))) * 1000;
+                                    t++;
+                                    number100 = (Character.getNumericValue(readMessage.charAt((t)))) * 100;
+                                    t++;
+                                    number10 = (Character.getNumericValue(readMessage.charAt((t)))) * 10;
+                                    t++;
+                                    number1 = Character.getNumericValue(readMessage.charAt((t)));
+                                    if ((number1000 + number100 + number10 + number1) >= 0 && (number1000 + number100 + number10 + number1) <= 360) {
+                                        //stickBuffer += (number1000 + number100 + number10 + number1);
+                                        alpha[q] = (number1000 + number100 + number10 + number1);
+                                    }
+                                    q++;
+                                    if (q >= bufferSize)
+                                        q = 0;
+                                    break;
+                                }
+                            }
+                        }
+                        for(int t = 0; t < loopCount; t++) {
+                            breakFlag = 0;
+                            if (readMessage.charAt(t) == 'A') {         //Next char is a number
+                                for (n = 1; n < 5; n++) {
+                                    //Log.d("ADebugTag", "readMessage: " + (int)(readMessage.charAt(t + n)));
+                                    if ((int) (readMessage.charAt(t + n)) < 48 || (int) (readMessage.charAt(t + n)) > 57) {
+                                        breakFlag = 1;
+                                    }
+                                }
+                                if (breakFlag != 1) {
+                                    t++;
+                                    number1000 = (Character.getNumericValue(readMessage.charAt((t)))) * 1000;
+                                    t++;
+                                    number100 = (Character.getNumericValue(readMessage.charAt((t)))) * 100;
+                                    t++;
+                                    number10 = (Character.getNumericValue(readMessage.charAt((t)))) * 10;
+                                    t++;
+                                    number1 = Character.getNumericValue(readMessage.charAt((t)));
+                                    if ((number1000 + number100 + number10 + number1) >= 0 && (number1000 + number100 + number10 + number1) <= 360) {
+                                        //stickBuffer += (number1000 + number100 + number10 + number1);
+                                        alphaFB[j] = (number1000 + number100 + number10 + number1);
+                                    }
+                                    j++;
+                                    if (j >= bufferSize)
+                                        j = 0;
+                                    break;
+                                }
+                            }
+                        }
+                        for(int t = 0; t < loopCount; t++) {
+                            breakFlag = 0;
+                            if (readMessage.charAt(t) == 'b') {         //Next char is a number
+                                for (n = 1; n < 5; n++) {
+                                    //Log.d("ADebugTag", "readMessage: " + (int)(readMessage.charAt(t + n)));
+                                    if ((int) (readMessage.charAt(t + n)) < 48 || (int) (readMessage.charAt(t + n)) > 57) {
+                                        breakFlag = 1;
+                                    }
+                                }
+                                if (breakFlag != 1) {
+                                    t++;
+                                    number1000 = (Character.getNumericValue(readMessage.charAt((t)))) * 1000;
+                                    t++;
+                                    number100 = (Character.getNumericValue(readMessage.charAt((t)))) * 100;
+                                    t++;
+                                    number10 = (Character.getNumericValue(readMessage.charAt((t)))) * 10;
+                                    t++;
+                                    number1 = Character.getNumericValue(readMessage.charAt((t)));
+                                    if ((number1000 + number100 + number10 + number1) >= 0 && (number1000 + number100 + number10 + number1) <= 360) {
+                                        //stickBuffer += (number1000 + number100 + number10 + number1);
+                                        beta[k] = (number1000 + number100 + number10 + number1);
+                                    }
+                                    k++;
+                                    if (k >= bufferSize)
+                                        k = 0;
+                                    break;
+                                }
+                            }
+                        }
+                        for(int t = 0; t < loopCount; t++) {
+                            breakFlag = 0;
+                            if (readMessage.charAt(t) == 'B') {         //Next char is a number
+                                for (n = 1; n < 5; n++) {
+                                    //Log.d("ADebugTag", "readMessage: " + (int)(readMessage.charAt(t + n)));
+                                    if ((int) (readMessage.charAt(t + n)) < 48 || (int) (readMessage.charAt(t + n)) > 57) {
+                                        breakFlag = 1;
+                                    }
+                                }
+                                if (breakFlag != 1) {
+                                    t++;
+                                    number1000 = (Character.getNumericValue(readMessage.charAt((t)))) * 1000;
+                                    t++;
+                                    number100 = (Character.getNumericValue(readMessage.charAt((t)))) * 100;
+                                    t++;
+                                    number10 = (Character.getNumericValue(readMessage.charAt((t)))) * 10;
+                                    t++;
+                                    number1 = Character.getNumericValue(readMessage.charAt((t)));
+                                    if ((number1000 + number100 + number10 + number1) >= 0 && (number1000 + number100 + number10 + number1) <= 360) {
+                                        //stickBuffer += (number1000 + number100 + number10 + number1);
+                                        betaFB[m] = (number1000 + number100 + number10 + number1);
+                                    }
+                                    m++;
+                                    if (m >= bufferSize)
+                                        m = 0;
+                                    break;
+                                }
+                            }
+                        }
+                        for(int t = 0; t < loopCount; t++) {
+                            breakFlag = 0;
+                            if (readMessage.charAt(t) == 'x') {         //Next char is a number
+                                for (n = 1; n < 5; n++) {
+                                    //Log.d("ADebugTag", "readMessage: " + (int)(readMessage.charAt(t + n)));
+                                    if ((int) (readMessage.charAt(t + n)) < 48 || (int) (readMessage.charAt(t + n)) > 57) {
+                                        breakFlag = 1;
+                                    }
+                                }
+                                if (breakFlag != 1) {
+                                    t++;
+                                    number1000 = (Character.getNumericValue(readMessage.charAt((t)))) * 1000;
+                                    t++;
+                                    number100 = (Character.getNumericValue(readMessage.charAt((t)))) * 100;
+                                    t++;
+                                    number10 = (Character.getNumericValue(readMessage.charAt((t)))) * 10;
+                                    t++;
+                                    number1 = Character.getNumericValue(readMessage.charAt((t)));
+                                    if ((number1000 + number100 + number10 + number1) >= 40 && (number1000 + number100 + number10 + number1) <= 120) {
+                                        //stickBuffer += (number1000 + number100 + number10 + number1);
+                                        xDistance = (number1000 + number100 + number10 + number1);
+                                    }
+                                    p++;
+                                    if (p >= bufferSize)
+                                        p = 0;
+                                    break;
+                                }
+                            }
+                        }
+                        */
 
-                        for(int t = 0; t < 50; t++) {
-                            if (readMessage.charAt(t) == '-') {
-                                t++;
+                        for(int t = 0; t < loopCount; t++) {
+                            breakFlag = 0;
+                            if (readMessage.charAt(t) == 'b') {         //Next char is a number
+                                for (n = 1; n < 5; n++) {
+                                    //Log.d("ADebugTag", "readMessage: " + (int)(readMessage.charAt(t + n)));
+                                    if ((int) (readMessage.charAt(t + n)) < 48 || (int) (readMessage.charAt(t + n)) > 57) {
+                                        breakFlag = 1;
+                                    }
+                                }
+                                if (breakFlag != 1) {
+                                    t++;
+                                    number1000 = (Character.getNumericValue(readMessage.charAt((t)))) * 1000;
+                                    t++;
+                                    number100 = (Character.getNumericValue(readMessage.charAt((t)))) * 100;
+                                    t++;
+                                    number10 = (Character.getNumericValue(readMessage.charAt((t)))) * 10;
+                                    t++;
+                                    number1 = Character.getNumericValue(readMessage.charAt((t)));
+                                    if ((number1000 + number100 + number10 + number1) >= 0 && (number1000 + number100 + number10 + number1) <= 360) {
+                                        //stickBuffer += (number1000 + number100 + number10 + number1);
+                                        boomADC[q] = (number1000 + number100 + number10 + number1);
+                                    }
+                                    q++;
+                                    if (q >= bufferSize)
+                                        q = 0;
+                                    break;
+                                }
                             }
+                        }
+
+                        for(int t = 0; t < loopCount; t++) {
+                            breakFlag = 0;
                             if (readMessage.charAt(t) == 's') {         //Next char is a number
-                                t++;
-                                number1000 = (Character.getNumericValue(readMessage.charAt((t)))) * 1000;
-                                t++;
-                                number100 = (Character.getNumericValue(readMessage.charAt((t)))) * 100;
-                                t++;
-                                number10 = (Character.getNumericValue(readMessage.charAt((t)))) * 10;
-                                t++;
-                                number1 = Character.getNumericValue(readMessage.charAt((t)));
-                                if ((number1000 + number100 + number10 + number1) >= 0) {
-                                    //stickBuffer += (number1000 + number100 + number10 + number1);
-                                    GameScreen.stickADC[j] = (number1000 + number100 + number10 + number1);
+                                for (n = 1; n < 5; n++) {
+                                    //Log.d("ADebugTag", "readMessage: " + (int)(readMessage.charAt(t + n)));
+                                    if ((int) (readMessage.charAt(t + n)) < 48 || (int) (readMessage.charAt(t + n)) > 57) {
+                                        breakFlag = 1;
+                                    }
+                                }
+                                if (breakFlag != 1) {
+                                    t++;
+                                    number1000 = (Character.getNumericValue(readMessage.charAt((t)))) * 1000;
+                                    t++;
+                                    number100 = (Character.getNumericValue(readMessage.charAt((t)))) * 100;
+                                    t++;
+                                    number10 = (Character.getNumericValue(readMessage.charAt((t)))) * 10;
+                                    t++;
+                                    number1 = Character.getNumericValue(readMessage.charAt((t)));
+                                    if ((number1000 + number100 + number10 + number1) >= 0 && (number1000 + number100 + number10 + number1) <= 360) {
+                                        //stickBuffer += (number1000 + number100 + number10 + number1);
+                                        stickADC[j] = (number1000 + number100 + number10 + number1);
+                                    }
+                                    j++;
+                                    if (j >= bufferSize)
+                                        j = 0;
+                                    break;
                                 }
                             }
-                            t++;
+                        }
+
+                        for(int t = 0; t < loopCount; t++) {
+                            breakFlag = 0;
                             if (readMessage.charAt(t) == 't') {         //Next char is a number
-                                t++;
-                                number1000 = (Character.getNumericValue(readMessage.charAt((t)))) * 1000;
-                                t++;
-                                number100 = (Character.getNumericValue(readMessage.charAt((t)))) * 100;
-                                t++;
-                                number10 = (Character.getNumericValue(readMessage.charAt((t)))) * 10;
-                                t++;
-                                number1 = Character.getNumericValue(readMessage.charAt((t)));
-                                if ((number1000 + number100 + number10 + number1) >= 0) {
-                                    GameScreen.tipADC[j] = (number1000 + number100 + number10 + number1);
+                                for (n = 1; n < 5; n++) {
+                                    //Log.d("ADebugTag", "readMessage: " + (int)(readMessage.charAt(t + n)));
+                                    if ((int) (readMessage.charAt(t + n)) < 48 || (int) (readMessage.charAt(t + n)) > 57) {
+                                        breakFlag = 1;
+                                    }
                                 }
-                            }
-                            t++;
-                                if (readMessage.charAt(t) == 'c') {         //Next char is a number
+                                if (breakFlag != 1) {
                                     t++;
                                     number1000 = (Character.getNumericValue(readMessage.charAt((t)))) * 1000;
                                     t++;
@@ -199,13 +404,46 @@ public abstract class AndroidGame extends Activity implements Game {
                                     t++;
                                     number1 = Character.getNumericValue(readMessage.charAt((t)));
                                     if ((number1000 + number100 + number10 + number1) >= 0) {
-                                        GameScreen.clawADC[j] = (number1000 + number100 + number10 + number1);
+                                        tipADC[k] = (number1000 + number100 + number10 + number1);
                                     }
-                                    j++;
-                                    if (j >= 10)
-                                        j = 0;
+                                    k++;
+                                    if (k >= bufferSize) {
+                                        k = 0;
+                                    }
+                                    break;
                                 }
                             }
+                        }
+                        for(int t = 0; t < loopCount; t++) {
+                            breakFlag = 0;
+                            if (readMessage.charAt(t) == 'c') {         //Next char is a number
+                                for (n = 1; n < 5; n++) {
+                                    //Log.d("ADebugTag", "readMessage: " + (int)(readMessage.charAt(t + n)));
+                                    if ((int) (readMessage.charAt(t + n)) < 48 || (int) (readMessage.charAt(t + n)) > 57) {
+                                        breakFlag = 1;
+                                    }
+                                }
+                                if (breakFlag != 1) {
+                                    t++;
+                                    number1000 = (Character.getNumericValue(readMessage.charAt((t)))) * 1000;
+                                    t++;
+                                    number100 = (Character.getNumericValue(readMessage.charAt((t)))) * 100;
+                                    t++;
+                                    number10 = (Character.getNumericValue(readMessage.charAt((t)))) * 10;
+                                    t++;
+                                    number1 = Character.getNumericValue(readMessage.charAt((t)));
+                                    if ((number1000 + number100 + number10 + number1) >= 0) {
+                                        clawADC[m] = (number1000 + number100 + number10 + number1);
+                                    }
+                                    m++;
+                                    if (m >= bufferSize) {
+                                        m = 0;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
