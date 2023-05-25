@@ -11,10 +11,14 @@ import com.esark.framework.Pixmap;
 import com.esark.framework.Screen;
 import com.esark.video.FloatingWindow;
 
+import static com.esark.framework.AndroidGame.bufferSize;
+import static com.esark.framework.AndroidGame.xDistance;
 import static com.esark.roboticarm.Assets.blueJoystick;
 import static com.esark.roboticarm.Assets.excavatorTabletLandscapeBackground;
 import static com.esark.roboticarm.Assets.redJoystick;
 import static com.esark.roboticarm.Assets.robotPortraitBackground;
+import static com.esark.roboticarm.ConnectedThread.arrayFilled;
+import static com.esark.roboticarm.ConnectedThread.count;
 
 import java.util.List;
 
@@ -36,23 +40,31 @@ public class GameScreen extends Screen implements Input {
     public static int repeat = 0;
 
     public int i = 1;
+    private int alpha = 0;
+    private int alphaFB = 0;
+    private int beta = 0;
+    private int betaFB = 0;
+  //  private int xDistance = 0;
+    private int boomFilteredSignal = 0;
+    private int stickFilteredSignal = 0;
+    private int tipFilteredSignal = 0;
+    private int clawFilteredSignal = 0;
+    private int boomDeg = 0;
+    private int stickDeg = 0;
+    private int tipDeg = 0;
+    private int clawDeg = 0;
+    private final int arraySize = 50;
 
-    public static int[] boomADC = new int[10];
-    public static int[] stickADC = new int[10];
-    public static int[] tipADC = new int[10];
-    public static int[] clawADC = new int[10];
-
-    public int stickBuffer = 0;
-    public int stickCount = 0;
-    public int stickADCPrev = 0;
-    public int start = 0;
-    public int k = 0;
-
+    public double stickSD = 0;
+    public double tipSD = 0;
     public Pixmap backgroundPixmap = null;
     private static final int INVALID_POINTER_ID = -1;
     // The ‘active pointer’ is the one currently moving our object.
     private int mActivePointerId = INVALID_POINTER_ID;
-
+    //public static int tipADC = 0;
+    public int filled = 0;
+    public int fillCount = 0;
+    OutlierRemover filter = new OutlierRemover();
 
     //Constructor
     public GameScreen(Game game) {
@@ -73,22 +85,64 @@ public class GameScreen extends Screen implements Input {
         backgroundPixmap = Assets.robotPortraitBackground;
         g.drawPortraitPixmap(backgroundPixmap, 0, 0);
 
-        for(k = 1; k < 10; k++) {
-            if (Math.abs((stickADC[k] - stickADC[k - 1])) < 50) {
-                stickBuffer += stickADC[k];
-                stickCount++;
-            }
-        }
-        if(stickCount != 0) {
-            stickBuffer = stickBuffer / stickCount;
-        }
-        if(stickBuffer != 0) {
+        /*
+        alpha = filter.removeOutliers('a');
+        g.drawFBRect(830, 200);
+        g.drawText(String.valueOf(alpha), 1300, 400);
+        alphaFB = filter.removeOutliers('A');
+        // stickDeg = (int) ((stickFilteredSignal - 298) / 2.6);     //Max out = 610, Max in = 298
+        g.drawFBRect(830, 580);
+        g.drawText(String.valueOf(alphaFB), 1300, 780);
+        beta = filter.removeOutliers('b');
+        //tipDeg = (int) ((852 - tipFilteredSignal)/4.725);     //Max up = 285, Max down = 852
+        g.drawFBRect(830, 960);
+        g.drawText(String.valueOf(beta), 1300, 1160);
+        betaFB = filter.removeOutliers('B');
+        //clawDeg = (int) ((635 - clawFilteredSignal)/2.9667);     //Max open = 635, Max closed = 279
+        g.drawFBRect(830, 1340);
+        g.drawText(String.valueOf(betaFB), 1300, 1540);
+      //  xDistance = filter.removeOutliers('x');
+        g.drawFBRect(200, 200);
+        g.drawText(String.valueOf(xDistance), 500, 400);
+        */
+
+
+        boomFilteredSignal = filter.removeOutliers('b');
+        g.drawFBRect(830, 200);
+        g.drawText(String.valueOf(boomFilteredSignal), 1300, 400);
+        stickFilteredSignal = filter.removeOutliers('s');
+        // stickDeg = (int) ((stickFilteredSignal - 298) / 2.6);     //Max out = 610, Max in = 298
+        g.drawFBRect(830, 580);
+        g.drawText(String.valueOf(stickFilteredSignal), 1300, 780);
+        tipFilteredSignal = filter.removeOutliers('t');
+        //tipDeg = (int) ((852 - tipFilteredSignal)/4.725);     //Max up = 285, Max down = 852
+        g.drawFBRect(830, 960);
+        g.drawText(String.valueOf(tipFilteredSignal), 1300, 1160);
+        clawFilteredSignal = filter.removeOutliers('c');
+        //clawDeg = (int) ((635 - clawFilteredSignal)/2.9667);     //Max open = 635, Max closed = 279
+        g.drawFBRect(830, 1340);
+        g.drawText(String.valueOf(clawFilteredSignal), 1300, 1540);
+
+        /*
+        stickBuffer += stickADC[k];
+        stickAvg = stickBuffer/2;
+        stickSD = Math.pow(stickADC[k] - stickAvg, 2);
+        stickSD = Math.sqrt(stickSD / 2);
+        if(Math.abs(stickADC[k] - stickSD) < 30){
             g.drawFBRect(830, 580);
-            g.drawText(String.valueOf(stickBuffer), 830, 780);
+            g.drawText(String.valueOf(stickAvg), 830, 780);
+            stickAvgPrev = stickAvg;
+        }
+        else{
+            stickAvg = stickAvgPrev;
+        }
+        k++;
+        if(k >= 10){
+            k = 0;
         }
         stickBuffer = 0;
         stickCount = 0;
-
+*/
      //   g.drawFBRect(830, 200);
        // g.drawText(String.valueOf(boomADC[i]), 830, 400);
         /*
@@ -120,11 +174,11 @@ public class GameScreen extends Screen implements Input {
         else{
             g.drawFBRect(830, 1340);
             g.drawText(String.valueOf(clawADC[i - 1]), 830, 1540);
-        }*/
+        }
         i++;
         if(i >= 50){
             i = 1;
-        }
+        }*/
     //    g.drawTestRect(1100, 1850);
         /*
         g.drawTestRect(2250, 400);
@@ -144,7 +198,7 @@ public class GameScreen extends Screen implements Input {
 
 
          */
-
+        //g.drawTestRect(1100, 1850);
         int len = touchEvents.size();
         for (int i = 0; i < len; i++) {
             TouchEvent event = touchEvents.get(i);
@@ -196,7 +250,7 @@ public class GameScreen extends Screen implements Input {
             }
             if (event.type == TouchEvent.TOUCH_DRAGGED || event.type == TouchEvent.TOUCH_DOWN) {    //A thumb is pressed or dragging the screen
                 //The following code determines which region of the screen the thumb was pressed
-                if (x > 1100 && x < 1160 && y > 1850 && y < 2350) {       //Back button
+                if (x > 1100 && x < 1600 && y > 1850 && y < 2350) {       //Back button
                     //Back Button Code Here
                      backgroundPixmap.dispose();
                     Intent intent2 = new Intent(context.getApplicationContext(), RoboticArm.class);

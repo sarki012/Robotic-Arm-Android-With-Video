@@ -35,6 +35,9 @@ public class ConnectedThread extends Thread {
     private final OutputStream mmOutStream;
     private final Handler mHandler;
 
+    public static int arrayFilled = 0;
+    public static int count = 0;
+
     public ConnectedThread(BluetoothSocket socket, Handler handler) {
         mmSocket = socket;
         mHandler = handler;
@@ -60,10 +63,10 @@ public class ConnectedThread extends Thread {
             try {
                 // Read from the InputStream
                 bytes = mmInStream.available();
-                byte[] buffer = new byte[60];
+                byte[] buffer = new byte[55];
                 if (bytes != 0) {
-                    //SystemClock.sleep(100); //pause and wait for rest of data. Adjust this depending on your sending speed. Originally 100
-                    bytes = mmInStream.read(buffer, 0, 50); // record how many bytes we actually read
+                    SystemClock.sleep(10); //Was 10 pause and wait for rest of data. Adjust this depending on your sending speed. Originally 100
+                    bytes = mmInStream.read(buffer, 0, 55); // record how many bytes we actually read
                     mHandler.obtainMessage(AndroidGame.MESSAGE_READ, bytes, -1, buffer)
                             .sendToTarget(); // Send the obtained bytes to the UI activity
 
@@ -77,64 +80,64 @@ public class ConnectedThread extends Thread {
 
             if(clawOpen == 1){
                 write("n");
-                SystemClock.sleep(10);
+       //         SystemClock.sleep(10);
             }
             else if(clawClosed == 1){
                 write("c");
-                SystemClock.sleep(10);
+    //            SystemClock.sleep(10);
             }
             else if(clawOpen == 0 && clawClosed == 0){
                 write("%");
-                SystemClock.sleep(10);
+    //            SystemClock.sleep(10);
             }
 
             if(up == 1){
                 write("u");
-                SystemClock.sleep(10);
+    //            SystemClock.sleep(10);
             }
             else if(down == 1){
                 write("d");
-                SystemClock.sleep(10);
+    //            SystemClock.sleep(10);
             }
             else if(down == 0 && up == 0) {
                 write("@");
-                SystemClock.sleep(10);
+      //          SystemClock.sleep(10);
             }
             if(left == 1){
                 write("l");
-                SystemClock.sleep(10);
+       //         SystemClock.sleep(10);
             }
             else if(right == 1){
                 write("r");
-                SystemClock.sleep(10);
+      //          SystemClock.sleep(10);
             }
             else if(right == 0 && left == 0){
                 write("$");
-                SystemClock.sleep(10);
+     //           SystemClock.sleep(10);
             }
             if(out == 1 && in == 0){
                 write("O");
-                SystemClock.sleep(10);
+       //         SystemClock.sleep(10);
             }
             else if(in == 1 && out == 0){
                 write("I");
-                SystemClock.sleep(10);
+      //          SystemClock.sleep(10);
             }
             else if(in == 0 && out == 0){
                 write("&");
-                SystemClock.sleep(10);
+      //          SystemClock.sleep(10);
             }
             if(tipDown == 1){
                 write("t");             //Tip Down
-                SystemClock.sleep(10);
+   //             SystemClock.sleep(10);
             }
             else if(tipUp == 1){
                 write("p");             //Tip Up
-                SystemClock.sleep(10);
+        //        SystemClock.sleep(10);
             }
             else if(tipDown == 0 && tipUp == 0){
                 write("^");             //Stop tip motor
-                SystemClock.sleep(10);
+        //        SystemClock.sleep(10);
             }
             /*
             if(record == 1){
